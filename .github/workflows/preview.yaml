@@ -24,6 +24,17 @@ jobs:
       - name: Build
         id: build
         run: nix develop --command bash -c "pnpm i && pnpm run build"
+      # Install Node.js and pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 'latest'
+          run_install: false
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 'latest'
+          cache: 'pnpm'
       # Deploy Preview to Cloudflare Workers
       # Ref: https://zenn.dev/lalalatotoro/articles/b8fa632b53d332
       # Ref: https://zenn.dev/nikomaru/articles/0cea1b1e2fd4f2
@@ -33,10 +44,11 @@ jobs:
         continue-on-error: true
         uses: cloudflare/wrangler-action@v3
         with:
+          wranglerVersion: "4.45.3"
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: |
-            nix develop --command bash -c "pnpm i && wrangler versions upload --message \"Deployed a Preview by GitHub Actions: branch ${{ github.ref_name }}\""
+            versions upload --message "Deployed a Preview by GitHub Actions: branch ${{ github.ref_name }}"
       - name: Create Preview Summary File (Success Pattern)
         id: create-success-summary
         env:
