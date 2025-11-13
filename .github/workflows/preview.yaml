@@ -36,6 +36,7 @@ jobs:
           wranglerVersion: "4.45.3"
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: "."
           command: |
             versions upload --message "Deployed a Preview by GitHub Actions: branch ${{ github.ref_name }}"
       - name: Create Preview Summary File (Success Pattern)
