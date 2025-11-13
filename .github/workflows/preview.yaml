@@ -29,11 +29,6 @@ jobs:
         uses: pnpm/action-setup@v4
         with:
           run_install: false
-      - name: Install Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: 22
-          cache: 'pnpm'
       # Deploy Preview to Cloudflare Workers
       # Ref: https://zenn.dev/lalalatotoro/articles/b8fa632b53d332
       # Ref: https://zenn.dev/nikomaru/articles/0cea1b1e2fd4f2
